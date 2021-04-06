@@ -1,4 +1,4 @@
-package ccbill.training.recepieapp;
+package ccbill.training.recipeapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

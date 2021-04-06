@@ -1,4 +1,4 @@
-package ccbill.training.recepieapp;
+package ccbill.training.recipeapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
