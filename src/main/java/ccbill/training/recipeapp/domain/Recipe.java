@@ -17,8 +17,6 @@ public class Recipe {
     private String source;
     private String url;
     private String directions;
-    //todo add
-    //private Difficulty difficulty
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients;
@@ -26,9 +24,23 @@ public class Recipe {
     @Lob    //BLOB field in DB (Binary Large OBject)
     private Byte[] image;
 
+    /* EnumTypes:
+    ORDINAL : default
+        -- persists as 1 , 2 , 3 etc
+        -- can cause a problem if we add a new value in the middle of the Enum
+        -- example if we have EASY, MEDIUM, HARD and add MIDDLING before MEDIUM,
+           Recipes previously marked as MEDIUM will now be marked MIDDLING because the value points to 2, which is now MIDDLING
+
+    STRING :
+        -- persists the literal string value of the Enum
+    * */
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
 
+//region getters and setters
     public Long getId() {
         return id;
     }
@@ -109,6 +121,14 @@ public class Recipe {
         this.image = image;
     }
 
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
     public Notes getNotes() {
         return notes;
     }
@@ -116,4 +136,5 @@ public class Recipe {
     public void setNotes(Notes notes) {
         this.notes = notes;
     }
+//endregion
 }
