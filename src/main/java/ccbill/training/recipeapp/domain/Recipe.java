@@ -24,21 +24,28 @@ public class Recipe {
     @Lob    //BLOB field in DB (Binary Large OBject)
     private Byte[] image;
 
-    /* EnumTypes:
-    ORDINAL : default
-        -- persists as 1 , 2 , 3 etc
-        -- can cause a problem if we add a new value in the middle of the Enum
-        -- example if we have EASY, MEDIUM, HARD and add MIDDLING before MEDIUM,
-           Recipes previously marked as MEDIUM will now be marked MIDDLING because the value points to 2, which is now MIDDLING
+    /**
+     * <h1>EnumTypes:</h1>
+     * <h2>ORDINAL : default</h2>
+     *   <p>-- persists as 1 , 2 , 3 etc</p>
+     *   <p>-- can cause a problem if we add a new value in the middle of the Enum</p>
+     *   <p>-- example if we have EASY, MEDIUM, HARD and add MIDDLING before MEDIUM,
+     *      Recipes previously marked as MEDIUM will now be marked MIDDLING because the value points to 2, which is now MIDDLING</p>
 
-    STRING :
-        -- persists the literal string value of the Enum
-    * */
+     * <h2>STRING :</h2>
+     *   <p>-- persists the literal string value of the Enum</p>
+     */
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
+
+    @ManyToMany
+    @JoinTable(name = "recipe_category",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
 
 //region getters and setters
     public Long getId() {
@@ -136,5 +143,14 @@ public class Recipe {
     public void setNotes(Notes notes) {
         this.notes = notes;
     }
-//endregion
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    //endregion
 }
