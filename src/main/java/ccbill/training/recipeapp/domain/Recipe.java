@@ -1,6 +1,7 @@
 package ccbill.training.recipeapp.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,12 +17,16 @@ public class Recipe {
     private Integer servings;
     private String source;
     private String url;
+
+    //here we need a Large object because Hibernate will automatically set the field size in the DB to only 256 characters, where we need a lot more
+    @Lob
     private String directions;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private Set<Ingredient> ingredients;
+    private Set<Ingredient> ingredients = new HashSet<>();
 
-    @Lob    //BLOB field in DB (Binary Large OBject)
+    //BLOB field in DB (Binary Large OBject)
+    @Lob
     private Byte[] image;
 
     /**
@@ -45,9 +50,9 @@ public class Recipe {
     @JoinTable(name = "recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
 
-//region getters and setters
+    //region getters and setters
     public Long getId() {
         return id;
     }

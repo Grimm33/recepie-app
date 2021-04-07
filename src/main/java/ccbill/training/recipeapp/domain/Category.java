@@ -15,6 +15,7 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private Set<Recipe>recipes;
 
+    //region getters and setters
     public Long getId() {
         return id;
     }
@@ -38,4 +39,5 @@ public class Category {
     public void setRecipes(Set<Recipe> recipes) {
         this.recipes = recipes;
     }
+    //endregion
 }

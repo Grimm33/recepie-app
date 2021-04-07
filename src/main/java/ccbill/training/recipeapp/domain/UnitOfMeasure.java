@@ -14,6 +14,7 @@ public class UnitOfMeasure {
 
     private String description;
 
+    //region getters and setters
     public Long getId() {
         return id;
     }
@@ -29,4 +30,5 @@ public class UnitOfMeasure {
     public void setDescription(String description) {
         this.description = description;
     }
+    //endregion
 }

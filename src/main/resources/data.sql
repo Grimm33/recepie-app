@@ -9,4 +9,7 @@ insert into unit_of_measure (description)
            ('Tablespoon'),
            ('Cup'),
            ('Pinch'),
-           ('Ounce');
+           ('Ounce'),
+           ('Each'),
+           ('Dash'),
+           ('Pint');

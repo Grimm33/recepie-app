@@ -15,6 +15,7 @@ public class Notes {
     @Lob    //CLOB filed in DB (Character Large OBject)
     private String recipeNotes;
 
+    //region getters and setters
     public Long getId() {
         return id;
     }
@@ -38,4 +39,5 @@ public class Notes {
     public void setRecipeNotes(String recipeNotes) {
         this.recipeNotes = recipeNotes;
     }
+    //endregion
 }
