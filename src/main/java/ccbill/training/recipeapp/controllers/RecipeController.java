@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-//@RequestMapping({"/recipe/", "/recipe.html"})
+@RequestMapping({"/recipe/", "/recipe"})
 @Controller
 public class RecipeController {
 
@@ -19,21 +19,21 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping({"/recipe/{id}/show", "/recipe/{id}/show/"})
+    @RequestMapping({"{id}/show", "{id}/show/"})
     public String showById(@PathVariable String id, Model model){
         model.addAttribute("recipe", recipeService.findById(Long.valueOf(id)));
 
         return "recipe/show";
     }
 
-    @RequestMapping({"/recipe/new", "/recipe/new/"})
+    @RequestMapping({"new", "new/"})
     public String newRecipe(Model model){
         model.addAttribute("recipe", new RecipeCommand());
 
         return "recipe/recipeform";
     }
 
-    @RequestMapping({"/recipe/{id}/update", "/recipe/{id}/update/"})
+    @RequestMapping({"{id}/update", "{id}/update/"})
     public String updateRecipe(@PathVariable String id, Model model){
         model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(id)));
 
@@ -41,7 +41,7 @@ public class RecipeController {
     }
 
     @PostMapping
-    @RequestMapping("recipe")
+    @RequestMapping({"", "/"})
     public String saveOrUpdate(@ModelAttribute RecipeCommand recipeCommand){
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(recipeCommand);
 
