@@ -1,5 +1,6 @@
 package ccbill.training.recipeapp.services;
 
+import ccbill.training.recipeapp.commands.RecipeCommand;
 import ccbill.training.recipeapp.converters.RecipeCommandToRecipe;
 import ccbill.training.recipeapp.converters.RecipeToRecipeCommand;
 import ccbill.training.recipeapp.domain.Recipe;
@@ -31,14 +32,14 @@ class RecipeServiceImplTest {
     RecipeCommandToRecipe recipeCommandToRecipe;
 
     @BeforeEach
-    void setup() {
+    public void setup() {
         openMocks(this);
 
         recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
-    void getRecipesTest() {
+    public void getRecipesTest() {
         Recipe recipe = new Recipe();
         HashSet<Recipe> recipesData = new HashSet<>();
         recipesData.add(recipe);
@@ -53,7 +54,7 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    void getRecipeByIdTest(){
+    public void getRecipeByIdTest(){
         Recipe recipe = new Recipe();
         recipe.setId(1L);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
@@ -65,5 +66,35 @@ class RecipeServiceImplTest {
         assertNotNull(recipeReturned, "Null Recipe Returned");
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    public void getRecipeCommandByIdTest(){
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(1L);
+
+        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
+
+        RecipeCommand commandById = recipeService.findCommandById(1L);
+
+        assertNotNull(commandById, "Null recipe returned");
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    public void deleteByIdTest(){
+        Long idToDelete = 1L;
+        recipeService.deleteById(idToDelete);
+
+        //no 'when' since method has void return type
+
+        verify(recipeRepository, times(1)).deleteById(anyLong());
     }
 }
