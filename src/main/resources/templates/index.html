@@ -31,13 +31,15 @@
                                     <th>ID</th>
                                     <th>Description</th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tr th:each="recipe : ${recipes}">
                                 <!--/*@thymesVar id="recipe" type="ccbill.training.recipeapp.domain.Recipe"*/-->
                                 <td th:text="${recipe.id}"></td>
                                 <td th:text="${recipe.description}"></td>
-                                <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>
+                                <td><a href="#" th:href="@{/recipe/{id}/show(id = ${recipe.id})}" class="btn btn-primary">View</a></td>
+                                <td><a href="#" th:href="@{/recipe/{id}/update(id = ${recipe.id})}" class="btn btn-warning">Update</a></td>
                             </tr>
                         </table>
                     </div>
