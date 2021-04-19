@@ -1,6 +1,8 @@
 package ccbill.training.recipeapp.controllers;
 
 import ccbill.training.recipeapp.commands.IngredientCommand;
+import ccbill.training.recipeapp.commands.RecipeCommand;
+import ccbill.training.recipeapp.commands.UnitOfMeasureCommand;
 import ccbill.training.recipeapp.services.IngredientService;
 import ccbill.training.recipeapp.services.RecipeService;
 import ccbill.training.recipeapp.services.UnitOfMeasureService;
@@ -40,6 +42,24 @@ public class IngredientController {
                 Long.valueOf(recipeId), Long.valueOf(id)));
 
         return "recipe/ingredient/show";
+    }
+
+    @GetMapping
+    @RequestMapping("/recipe/{recipeId}/ingredient/new")
+    public String newRecipe(@PathVariable String recipeId, Model model){
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+        //todo raise exception if null
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+
+        model.addAttribute("ingredient", ingredientCommand);
+
+        ingredientCommand.setUom(new UnitOfMeasureCommand());
+
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
     }
 
     @GetMapping
