@@ -113,11 +113,8 @@
                                         <ul>
                                             <li th:each="ingredient : ${recipe.ingredients}"
                                                 th:text="${(ingredient.amount) + ' '
-                                        + (ingredient.uom.getDescription()) + ' '
-                                        + (ingredient.getDescription())
-                                        }">lole</li>
-                                            <li>hello</li>
-                                            <li>world</li>
+                                                + (ingredient.uom.getDescription()) + ' '
+                                                + (ingredient.getDescription())}"></li>
                                         </ul>
                                     </div>
                                 </div>
