@@ -59,6 +59,13 @@ class RecipeControllerTest {
     }
 
     @Test
+    public void getRecipeNFExceptionTest() throws Exception {
+        mockMvc.perform(get("/recipe/asdf/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
+    }
+
+    @Test
     public void getNewRecipeFormTest() throws Exception {
         RecipeCommand command = new RecipeCommand();
 
