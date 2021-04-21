@@ -4,6 +4,7 @@ import ccbill.training.recipeapp.commands.RecipeCommand;
 import ccbill.training.recipeapp.converters.RecipeCommandToRecipe;
 import ccbill.training.recipeapp.converters.RecipeToRecipeCommand;
 import ccbill.training.recipeapp.domain.Recipe;
+import ccbill.training.recipeapp.exceptions.NotFoundException;
 import ccbill.training.recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
 
@@ -66,6 +66,17 @@ class RecipeServiceImplTest {
         assertNotNull(recipeReturned, "Null Recipe Returned");
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
+    }
+
+    @Test
+    public void getRecipeByIdNotFoundTest(){
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> recipeService.findById(1L));
+
+        assertTrue(exception.getMessage().contains("Recipe Not Found!"));
     }
 
     @Test

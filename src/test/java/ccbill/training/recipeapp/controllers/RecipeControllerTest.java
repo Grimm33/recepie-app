@@ -2,6 +2,7 @@ package ccbill.training.recipeapp.controllers;
 
 import ccbill.training.recipeapp.commands.RecipeCommand;
 import ccbill.training.recipeapp.domain.Recipe;
+import ccbill.training.recipeapp.exceptions.NotFoundException;
 import ccbill.training.recipeapp.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,6 +47,14 @@ class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
+    }
+
+    @Test
+    public void getRecipeNotFoundTest() throws Exception {
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+               .andExpect(status().isNotFound());
     }
 
     @Test
